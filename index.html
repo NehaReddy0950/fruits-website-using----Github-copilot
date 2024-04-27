@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Farmers Fruits</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: green;
+        }
+        h2 {
+            color: orange;
+        }
+        .fruit {
+            border: 1px solid black;
+            margin: 10px;
+            padding: 10px;
+        }
+        .fruit img {
+            width: 100px;
+            height: 100px;
+        }
+        .cart {
+            border: 1px solid black;
+            margin: 10px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Farmers Fruits</h1>
+    <h2>Fresh Fruits From Farm</h2>
+
+    <div class="fruit">
+        <img src="apple.jpg" alt="Apple">
+        <h3>Apple</h3>
+        <p>$10.00</p>
+        <input type="number" id="appleQuantity" min="1">
+        <button onclick="addToCart('apple', 10)">Add to Cart</button>
+    </div>
+
+    <div class="fruit">
+        <img src="banana.jpg" alt="Banana">
+        <h3>Banana</h3>
+        <p>$5.00</p>
+        <input type="number" id="bananaQuantity" min="1">
+        <button onclick="addToCart('banana', 5)">Add to Cart</button>
+    </div>
+
+    <!-- Add more fruits here -->
+
+    <div class="cart">
+        <h3>Cart</h3>
+        <p id="cartContents"></p>
+        <p id="totalPrice">Total Price: $0.00</p>
+        <p id="discountPrice">Discount: $0.00</p>
+        <p id="finalPrice">Final Price: $0.00</p>
+    </div>
+
+    <form id="userInfoForm">
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address">
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone">
+        <button type="button" onclick="placeOrder()">Place Order</button>
+    </form>
+
+    <p id="orderConfirmation"></p>
+
+    <script>
+        var cart = {};
+        var totalQuantity = 0;
+        var totalPrice = 0;
+
+        function addToCart(fruit, price) {
+            var quantity = document.getElementById(fruit + 'Quantity').value;
+            if (!cart[fruit]) {
+                cart[fruit] = {quantity: 0, price: price};
+            }
+            cart[fruit].quantity += Number(quantity);
+            totalQuantity += Number(quantity);
+            totalPrice += Number(quantity) * price;
+
+            var discount = totalQuantity > 2 ? totalPrice * 0.2 : 0;
+            var finalPrice = totalPrice - discount;
+
+            document.getElementById('cartContents').innerText = JSON.stringify(cart, null, 2);
+            document.getElementById('totalPrice').innerText = "Total Price: $" + totalPrice.toFixed(2);
+            document.getElementById('discountPrice').innerText = "Discount: $" + discount.toFixed(2);
+            document.getElementById('finalPrice').innerText = "Final Price: $" + finalPrice.toFixed(2);
+        }
+
+        function placeOrder() {
+            document.getElementById('orderConfirmation').innerText = "Thank you for your purchase! You will receive your items in 3 hours.";
+        }
+    </script>
+</body>
+</html>
